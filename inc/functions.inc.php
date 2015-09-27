@@ -1,6 +1,6 @@
 <?php
 
-function getPosts($db, $postID=NULL) {
+function getPosts($db, $page, $postID=NULL) {
    // if post id was supplied, load the associated post
    if(isset($postID)) {
       // Load specified entry
@@ -18,15 +18,18 @@ function getPosts($db, $postID=NULL) {
       $fulldisp = 1;
    } else {
       // If no post was supplied, load all post titles
-      $sql = "SELECT postID, title
+      $sql = "SELECT postID, page, title, content
               FROM posts
+              WHERE page=?
               ORDER BY created DESC";
+      $q = $db->prepare($sql);
+      $q->execute(array($page));
+
+      $e = NULL; // Declare the variable to avoid errors
+
       // Loop through returned results and store as an array
-      foreach($db->query($sql) as $row){
-         $e[] = array(
-               'id' => $row['postID'],
-               'title' => $row['title']
-         );
+      while($row = $q->fetch()){
+         $e[] = $row;
       }
       // Set the fulldisp flag for multiple posts
       $fulldisp = 0;
@@ -39,7 +42,7 @@ function getPosts($db, $postID=NULL) {
          $fulldisp = 1;
          $e = array(
             'title' => 'No Entries Yet',
-            'content' => '<a href="/admin.php">Create a new Post!</a>'
+            'content' => '<a href="admin.php">Create a new Post!</a>'
          );
       }
    }

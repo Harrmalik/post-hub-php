@@ -4,3 +4,13 @@ title    VARCHAR (150),
 content  TEXT,
 created  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
+
+ALTER TABLE posts
+ADD page VARCHAR(75) NOT NULL DEFAULT 'thread'
+AFTER postID,
+ADD INDEX (page)
+
+ALTER TABLE posts
+ADD tag VARCHAR(50) NOT NULL DEFAULT 'random'
+AFTER page,
+ADD INDEX (tag)
