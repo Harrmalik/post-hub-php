@@ -14,17 +14,17 @@
    */
    $page = (isset($_GET['page'])) ? htmlentities(strip_tags($_GET['page'])) : 'thread';
 
-   // Determine if an post ID was passed in the URL
-   $id = (isset($_GET['id'])) ? (int) $_GET['id'] : NULL;
+   // Determine if an post URL was passed
+   $url = (isset($_GET['url'])) ? $_GET['url'] : NULL;
 
    // Load the posts
-   $e = getPosts($db, $page, $id);
+   $p = getPosts($db, $page, $url);
 
    // Get the fulldisp flag and remove it from the array
-   $fulldisp = array_pop($e);
+   $fulldisp = array_pop($p);
 
    // Sanitize the entry data
-   $e = sanitizeData($e);
+   $p = sanitizeData($p);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -33,16 +33,17 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
       <title> Post Hub </title>
-      <link href="css/normalize.css" rel="stylesheet" type="text/css"/>
-      <link href="css/foundation.min.css" rel="stylesheet" type="text/css"/>
-      <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+      <link href="/post-hub-php/css/normalize.css" rel="stylesheet" type="text/css"/>
+      <link href="/post-hub-php/css/foundation.min.css" rel="stylesheet" type="text/css"/>
+      <link href="/post-hub-php/css/styles.css" rel="stylesheet" type="text/css"/>
    </head>
 
    <body>
       <header>
          <nav>
-            <ul>
-               <li><a href="index.php">Home</a></li>
+            <ul id="menu">
+               <li><a href="/post-hub-php/thread/">Home</a></li>
+               <li><a href="/post-hub-php/about/about-the-author">About</a></li>
             </ul>
          </nav>
       </header>

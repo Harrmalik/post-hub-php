@@ -14,3 +14,7 @@ ALTER TABLE posts
 ADD tag VARCHAR(50) NOT NULL DEFAULT 'random'
 AFTER page,
 ADD INDEX (tag)
+
+ALTER TABLE posts
+ADD url VARCHAR(250)
+AFTER content

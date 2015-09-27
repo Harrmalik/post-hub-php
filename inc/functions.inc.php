@@ -1,57 +1,71 @@
 <?php
 
-function getPosts($db, $page, $postID=NULL) {
-   // if post id was supplied, load the associated post
-   if(isset($postID)) {
+function getPosts($db, $page, $url=NULL) {
+   // if post url was supplied, load the associated post
+   if(isset($url)) {
       // Load specified entry
-      $sql = "SELECT title, content
+      $sql = "SELECT postID, page, title, content
               FROM posts
-              WHERE postID=?
+              WHERE url=?
               LIMIT 1";
       $q = $db->prepare($sql);
-      $q->execute(array($_GET['id']));
+      $q->execute(array($url));
 
       // Save the returned post array
-      $e = $q->fetch();
+      $p = $q->fetch();
 
       // Set the fulldisp flag for a single post
       $fulldisp = 1;
    } else {
-      // If no post was supplied, load all post titles
-      $sql = "SELECT postID, page, title, content
+      // If no url was supplied, load all post titles
+      $sql = "SELECT postID, page, title, content, url
               FROM posts
               WHERE page=?
               ORDER BY created DESC";
       $q = $db->prepare($sql);
       $q->execute(array($page));
 
-      $e = NULL; // Declare the variable to avoid errors
+      $p = NULL; // Declare the variable to avoid errors
 
       // Loop through returned results and store as an array
       while($row = $q->fetch()){
-         $e[] = $row;
+         if($page=='thread') {
+            $p[] = $row;
+            $fulldisp = 0;
+         } else {
+            $p[] = $row;
+            $fulldisp = 1;
+         }
       }
-      // Set the fulldisp flag for multiple posts
-      $fulldisp = 0;
+      
       /*
       * If no entries were returned, display a default
       * message and set the fulldisp flag to display a
       * single entry
       */
-      if(!is_array($e)) {
+      if(!is_array($p)) {
          $fulldisp = 1;
-         $e = array(
+         $p = array(
             'title' => 'No Entries Yet',
-            'content' => '<a href="admin.php">Create a new Post!</a>'
+            'content' => '<a href="admin.php?page='.$page.'">Create a new Post!</a>'
          );
       }
    }
 
    // Return loaded data
-   array_push($e, $fulldisp);
+   array_push($p, $fulldisp);
 
-   return $e;
+   return $p;
 }
+
+
+
+
+
+
+
+
+
 
 function sanitizeData($data) {
    // If $data is not an array, run strip_tags()
@@ -62,6 +76,24 @@ function sanitizeData($data) {
       // Call sanitizeData recursively for each array element
       return array_map('sanitizeData', $data);
    }
+}
+
+
+
+
+
+
+
+
+
+function makeUrl($title) {
+   $patterns = array(
+      '/\s+/',
+      '/(?!-)\W+/'
+   );
+   $replacements  = array('-', '');
+
+   return preg_replace($patterns, $replacements, strtolower($title));
 }
 
  ?>

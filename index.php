@@ -4,25 +4,27 @@
 
       <div id="posts">
          <?php
-            //If teh full display flag is set, show the post
+            //If the full display flag is set, show the post
             if($fulldisp == 1){
+               // Get the URL if one wasn't passed
+               $url = (isset($url)) ? $url : $p['url'];
          ?>
 
-         <h2><?php echo $e['title']; ?> </h2>
-         <p><?php echo $e['content']; ?> </p>
+         <h2><?php echo $p['title']; ?> </h2>
+         <p><?php echo $p['content']; ?> </p>
 
          <?php if($page=='thread'): ?>
             <p class="backlink">
-               <a href="./">Back to Latest Posts</a>
+               <a href="..">Back to Latest Posts</a>
             </p>
          <?php endif; ?>
 
          <?php
             } else {
                //Loop through each post
-               foreach($e as $post) {
+               foreach($p as $post) {
          ?>
-         <p><a href="?id=<?php echo $post['postID'] ?>">
+         <p><a href="/post-hub-php/<?php echo $post['page'] ?>/<?php echo $post['url'] ?>">
             <?php echo $post['title'] ?> </a></p>
 
          <?php
@@ -31,7 +33,7 @@
          ?>
          <p class="backlink">
             <?php if($page=='thread'): ?>
-            <a href="/post-hub-php/admin.php?page=<?php echo $page ?>">Write a new Post!</a>
+            <a href="/post-hub-php/admin/<?php echo $page ?>">Write a new Post!</a>
             <?php endif; ?>
          </p>
       </div>

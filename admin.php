@@ -1,7 +1,7 @@
 <?php include_once 'views/header.php'; ?>
 
       <h1> Post Hub </h1>
-      <form method="post" action="inc/update.inc.php">
+      <form method="post" action="/post-hub-php/inc/update.inc.php">
       <fieldset>
       <legend>New Post Submission</legend>
       <label>Title
