@@ -8,10 +8,17 @@
             if($fulldisp == 1){
                // Get the URL if one wasn't passed
                $url = (isset($url)) ? $url : $p['url'];
+
+               // Build the admin links
+               $admin = adminLinks($page, $url);
          ?>
 
          <h2><?php echo $p['title']; ?> </h2>
          <p><?php echo $p['content']; ?> </p>
+         <p>
+            <?php echo $admin['edit'] ?>
+            <?php if($page=='thread') echo $admin['delete'] ?>
+         </p>
 
          <?php if($page=='thread'): ?>
             <p class="backlink">

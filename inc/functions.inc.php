@@ -37,7 +37,7 @@ function getPosts($db, $page, $url=NULL) {
             $fulldisp = 1;
          }
       }
-      
+
       /*
       * If no entries were returned, display a default
       * message and set the fulldisp flag to display a
@@ -94,6 +94,68 @@ function makeUrl($title) {
    $replacements  = array('-', '');
 
    return preg_replace($patterns, $replacements, strtolower($title));
+}
+
+
+
+
+
+
+
+
+
+function adminLinks($page, $url) {
+    // Format the link to be followed for each odbc_setoption
+    $editURL = "/post-hub-php/admin/$page/$url";
+    $deleteURL = "/post-hub-php/admin/delete/$url";
+
+    // Make a hyperlink and add it to an array
+    $admin['edit'] = "<a href=\"$editURL\">edit</a>";
+    $admin['delete'] = "<a href=\"$deleteURL\">delete</a>";
+
+    return $admin;
+}
+
+
+
+
+
+
+
+
+
+function confirmDelete($db, $url) {
+  $p = getPosts($db, '', $url);
+
+  return <<<FORM
+  <form action="/post-hub-php/admin.php" method="post">
+    <fieldset>
+      <legend>Are You Sure?</legend>
+      <p>Are you sure you want to delete the post "$p[title]"?</p>
+      <input type="submit" name="submit" value="Yes" />
+      <input type="submit" name="submit" value="No" />
+      <input type="hidden" name="action" value="delete" />
+      <input type="hidden" name="url" value="$url" />
+    </fieldset>
+  </form>
+FORM;
+
+}
+
+
+
+
+
+
+
+
+
+function deletePost($db, $url){
+  $sql= "DELETE FROM posts
+         WHERE url=?
+         LIMIT 1";
+  $q = $db->prepare($sql);
+  return $q->execute(array($url));
 }
 
  ?>

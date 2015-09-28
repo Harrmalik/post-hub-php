@@ -14,6 +14,21 @@
    */
    $page = (isset($_GET['page'])) ? htmlentities(strip_tags($_GET['page'])) : 'thread';
 
+   if(isset($_POST['action']) && $_POST['action'] == 'delete') {
+     if($_POST['submit'] == 'Yes') {
+       $url = htmlentities(strip_tags($_POST['url']));
+       if(deletePost($db, $url)){
+         header("Location: /post-hub-php/");
+         exit;
+       } else {
+         exit('Error deleting the entry');
+       }
+     } else {
+       header("Location: /post-hub-php/thread/$url");
+       exit;
+     }
+   }
+
    // Determine if an post URL was passed
    $url = (isset($_GET['url'])) ? $_GET['url'] : NULL;
 
@@ -25,6 +40,25 @@
 
    // Sanitize the entry data
    $p = sanitizeData($p);
+
+   if(isset($_GET['url'])) {
+    //  $url= htmlentities(strip_tags($_GET['url']));
+
+      if($page == 'delete')
+        $confirm = confirmDelete($db, $url);
+
+      // Set the legend of the form
+      $legend = "Edit This Post";
+   } else {
+     // Set the legend of the form
+     $legend = "New Entry Submission";
+
+     // Set variables to NULL if not editing
+     $p['postID'] = NULL;
+     $p['title'] = NULL;
+     $p['content'] = NULL;
+   }
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

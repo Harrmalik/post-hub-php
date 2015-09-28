@@ -1,4 +1,6 @@
 <?php
+// Include the functions so you can create a URL
+include_once 'functions.inc.php';
 
 if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
    && !empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['page'])) {
@@ -9,21 +11,38 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
       include_once 'db.inc.php';
       $db = new PDO(DB_INFO, DB_USER, DB_PASS);
 
-      // Save the entry into the database
-      $sql = "INSERT INTO posts (title, content, page, url) VALUES (?, ?, ?, ?)";
-      $q = $db->prepare($sql);
-      $q->execute(array($_POST['title'], $_POST['content'], $_POST['page'], $url));
-      $q->closeCursor();
+      // Edit an existing post
+      if(!empty($_POST['postID']))
+      {
+        $sql = "UPDATE posts
+                SET title=?, content=?, url=?
+                WHERE postID=?
+                LIMIT 1";
+        $q = $db->prepare($sql);
+        $q->execute(array(
+          $_POST['title'],
+          $_POST['content'],
+          $url,
+          $_POST['postID']
+        ));
+        $q->closeCursor();
+      } else {
+        // create the post into the database
+        $sql = "INSERT INTO posts (title, content, page, url) VALUES (?, ?, ?, ?)";
+        $q = $db->prepare($sql);
+        $q->execute(array($_POST['title'], $_POST['content'], $_POST['page'], $url));
+        $q->closeCursor();
 
-      // Get the ID of teh entry we just saved
-      $id_obj = $db->query("SELECT LAST_INSERT_ID()");
-      $id = $id_obj->fetch();
-      $id_obj->closeCursor();
+        // Get the ID of teh entry we just saved
+        $id_obj = $db->query("SELECT LAST_INSERT_ID()");
+        $id = $id_obj->fetch();
+        $id_obj->closeCursor();
+      }
 
       // Sanitize the page information for use in the success URL
       $page = htmlentities(strip_tags($_POST['page']));
 
-      // Send the user to the new entry
+      // Send the user to the new post
       header('Location: /post-hub-php/'.$page.'/'.$url);
       exit;
    }
