@@ -4,7 +4,7 @@ function getPosts($db, $page, $url=NULL) {
    // if post url was supplied, load the associated post
    if(isset($url)) {
       // Load specified entry
-      $sql = "SELECT postID, page, title, content
+      $sql = "SELECT postID, page, title, image, content
               FROM posts
               WHERE url=?
               LIMIT 1";
@@ -18,7 +18,7 @@ function getPosts($db, $page, $url=NULL) {
       $fulldisp = 1;
    } else {
       // If no url was supplied, load all post titles
-      $sql = "SELECT postID, page, title, content, url
+      $sql = "SELECT postID, page, title, image, content, url
               FROM posts
               WHERE page=?
               ORDER BY created DESC";
@@ -150,12 +150,28 @@ FORM;
 
 
 
-function deletePost($db, $url){
-  $sql= "DELETE FROM posts
-         WHERE url=?
-         LIMIT 1";
-  $q = $db->prepare($sql);
-  return $q->execute(array($url));
-}
+  function deletePost($db, $url){
+    $sql= "DELETE FROM posts
+           WHERE url=?
+           LIMIT 1";
+    $q = $db->prepare($sql);
+    return $q->execute(array($url));
+  }
 
- ?>
+
+
+
+
+
+
+
+
+  function formatImage($img=NULL, $alt=NULL) {
+    if($img != NULL) {
+      return '<img src="'.$img.'" alt="'.$alt.'" />';
+    } else {
+      return NULL;
+    }
+  }
+
+?>
