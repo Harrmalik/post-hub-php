@@ -1,4 +1,7 @@
 <?php
+
+// Start the session
+session_start();
 // Include the functions so you can create a URL
 include_once 'functions.inc.php';
 
@@ -124,9 +127,43 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
           header('Location: '.$loc);
           exit;
         }
-   }
-   // If both conditions aren't met, sends the user back to the main page
-   else {
+   } else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'login'
+      && !empty($_POST['username']) && !empty($_POST['password'])) {
+        // If a  user is trying to log in, check it here
+
+        // Include database credentials and connect to the database
+        include_once 'db.inc.php';
+        $db = new PDO(DB_INFO, DB_USER, DB_PASS);
+        $sql = "SELECT COUNT(*) AS num_users
+                FROM admin
+                WHERE username=?
+                AND password=SHA1(?)";
+        $q = $db->prepare($sql);
+        $q->execute(array($_POST['username'], $_POST['password']));
+        $response = $q->fetch();
+        $_SESSION['loggedin'] = ($response['num_users'] > 0) ? 1 : NULL;
+
+        header('Location: /post-hub-php');
+        exit;
+
+   }else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'createuser'
+    && !empty($_POST['username']) && !empty($_POST['password'])) {
+          // Include database credentials and connect to the database
+          include_once 'db.inc.php';
+          $db = new PDO(DB_INFO, DB_USER, DB_PASS);
+          $sql = "INSERT INTO admin (username, password)
+                  VALUES(?, SHA1(?))";
+          $q = $db->prepare($sql);
+          $q->execute(array($_POST['username'], $_POST['password']));
+
+          header('Location: /post-hub-php/');
+          exit;
+   } else if($_GET['action'] == 'logout') {
+      session_destroy();
+      header('Location: ../');
+      exit;
+   }else {
+     // If both conditions aren't met, sends the user back to the main page
       header('Location: ../');
       exit;
    }

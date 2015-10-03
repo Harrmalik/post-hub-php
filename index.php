@@ -9,8 +9,9 @@
                // Get the URL if one wasn't passed
                $url = (isset($url)) ? $url : $p['url'];
 
-               // Build the admin links
-               $admin = adminLinks($page, $url);
+              // Build the admin links
+              $admin = (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) ? adminLinks($page, $url) :
+                        array('edit' => NULL, 'delete' => NULL);
 
                // Format the image if one exists
                $img = formatImage($p['image'], $p['title']);
@@ -60,7 +61,7 @@
          } // End the else
          ?>
          <p class="backlink">
-            <?php if($page=='thread'): ?>
+            <?php if($page=='thread' && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1): ?>
             <a href="/post-hub-php/admin/<?php echo $page ?>">Write a new Post!</a>
             <?php endif; ?>
          </p>

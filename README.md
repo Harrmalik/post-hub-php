@@ -1,5 +1,5 @@
 # Post Hub (PHP Edition)
-Version 0.0.6
+Version 0.0.7
 
 Scope Description
 --------------

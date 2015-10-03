@@ -162,10 +162,15 @@ FROM;
                 // Generate a byline for the comment
                 $byline = "<span><strong>$c[name]</strong>[Posted on $date]</span>";
 
-                // Generate delete link for the comment display
-                $admin = "<a href=\"/post-hub-php/inc/update.inc.php"
-                         . "?action=comment_delete&id=$c[id]\""
-                         . "class=\"admin\">delete</a>";
+                if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
+                  // Generate delete link for the comment display
+                  $admin = "<a href=\"/post-hub-php/inc/update.inc.php"
+                           . "?action=comment_delete&id=$c[id]\""
+                           . "class=\"admin\">delete</a>";
+                } else {
+                  $admin = NULL;
+                }
+
             } else {
                 // If no comments exist, set $byline & $admin to null
                 $byline = NULL;

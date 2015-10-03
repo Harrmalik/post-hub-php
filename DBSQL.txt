@@ -32,3 +32,8 @@ comment TEXT,
 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 INDEX(post_id)
 )
+
+CREATE TABLE admin (
+username VARCHAR(75) PRIMARY KEY,
+password VARCHAR(40)
+)

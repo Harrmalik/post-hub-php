@@ -1,4 +1,6 @@
 <?php
+
+    session_start();
    /*
    * Include the necessary files
    */
@@ -50,6 +52,11 @@
       // Set the legend of the form
       $legend = "Edit This Post";
    } else {
+     // Check if we're creating a new user
+     if($page == 'createuser'){
+       $create = createUserForm();
+     }
+
      // Set the legend of the form
      $legend = "New Entry Submission";
 
@@ -81,4 +88,12 @@
                <li><a href="/post-hub-php/about/about-the-author">About</a></li>
             </ul>
          </nav>
+
+         <?php if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==1): ?>
+            <p id="control_panel">
+            You are logged in!
+            <a href="/post-hub-php/inc/update.inc.php?action=logout">Log
+            out</a>.
+            </p>
+          <?php endif; ?>
       </header>
