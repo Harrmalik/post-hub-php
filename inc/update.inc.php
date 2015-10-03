@@ -73,6 +73,57 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
       // Send the user to the new post
       header('Location: /post-hub-php/'.$page.'/'.$url);
       exit;
+   } else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['submit'] == 'Post Comment') {
+      // Include and instantiate the Comments class
+      include_once 'comments.inc.php';
+      $comments = new Comments();
+
+      // Save the comment
+      if($comments->saveComment($_POST)){
+          // If available, store the entry the user came FROM
+          $loc = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '../';
+
+          // Send the user back to the Post
+          header('Location: '.$loc);
+          exit;
+      } else {
+          exit('Something went wrong while saving the comment.');
+      }
+   } else if($_GET['action'] == 'comment_delete') {
+      // If the delete link is clicked on a comment, confirm it here
+
+      // Include and instantiate the Comments class
+      include_once 'comments.inc.php';
+      $comments = new Comments();
+      echo $comments->confirmDelete($_GET['id']);
+      exit;
+   } else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'comment_delete') {
+        // If the confirmDelete() form was submitted, handle it here
+
+        // If set, store the post from which we came
+        $loc = isset($_POST['url']) ? $_POST['url'] : '../';
+
+        // If the user clicekd 'Yes', continue with deletion
+        if($_POST['confirm'] == 'Yes') {
+            // Include and instantiate the Comments class
+            include_once 'comments.inc.php';
+            $comments = new Comments();
+
+            // Delete the comment and return to the post
+            if($comments->deleteComment($_POST['id'])) {
+                header('Location: '.$loc);
+                exit;
+            } else {
+                // If deleting fails, output an error message
+                exit('Could not delete the comment.');
+            }
+        }
+
+        // If the user clicked "No", do nothing and return to the post
+        else {
+          header('Location: '.$loc);
+          exit;
+        }
    }
    // If both conditions aren't met, sends the user back to the main page
    else {

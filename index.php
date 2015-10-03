@@ -14,6 +14,16 @@
 
                // Format the image if one exists
                $img = formatImage($p['image'], $p['title']);
+
+               if($page == 'thread') {
+                  // Load the comment object
+                  include_once 'inc/comments.inc.php';
+                  $comments = new Comments();
+                  $comment_disp = $comments->showComments($p['postID']);
+                  $comment_form = $comments->showCommentForm($p['postID']);
+               } else {
+                  $comment_form = NULL;
+               }
          ?>
 
          <h2><?php echo $p['title']; ?> </h2>
@@ -27,7 +37,8 @@
             <p class="backlink">
                <a href="..">Back to Latest Posts</a>
             </p>
-         <?php endif; ?>
+            <h3> Comments for This Post </h3>
+         <?php echo $comment_disp, $comment_form; endif; ?>
 
          <?php
             } else {
