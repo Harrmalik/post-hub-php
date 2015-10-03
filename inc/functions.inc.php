@@ -4,7 +4,7 @@ function getPosts($db, $page, $url=NULL) {
    // if post url was supplied, load the associated post
    if(isset($url)) {
       // Load specified entry
-      $sql = "SELECT postID, page, title, image, content
+      $sql = "SELECT postID, page, title, image, content, created
               FROM posts
               WHERE url=?
               LIMIT 1";
@@ -18,7 +18,7 @@ function getPosts($db, $page, $url=NULL) {
       $fulldisp = 1;
    } else {
       // If no url was supplied, load all post titles
-      $sql = "SELECT postID, page, title, image, content, url
+      $sql = "SELECT postID, page, title, image, content, url, created
               FROM posts
               WHERE page=?
               ORDER BY created DESC";

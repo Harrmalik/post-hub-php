@@ -53,6 +53,9 @@
             <a href="/post-hub-php/admin/<?php echo $page ?>">Write a new Post!</a>
             <?php endif; ?>
          </p>
+         <p>
+           <a href="/post-hub-php/feeds/rss.php">Subscribe via RSS!</a>
+         </p>
       </div>
 
 <?php include_once 'views/footer.php'; ?>

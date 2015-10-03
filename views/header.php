@@ -67,6 +67,7 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
       <title> Post Hub </title>
+      <link rel="alternate" type="application/rss+xml" title="Post Hub PHP- RSS 2.0" href="/post-hub-php/feeds/rss.php" />
       <link href="/post-hub-php/css/normalize.css" rel="stylesheet" type="text/css"/>
       <link href="/post-hub-php/css/foundation.min.css" rel="stylesheet" type="text/css"/>
       <link href="/post-hub-php/css/styles.css" rel="stylesheet" type="text/css"/>
