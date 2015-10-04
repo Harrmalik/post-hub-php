@@ -1,6 +1,8 @@
 <?php
 
     session_start();
+    $_SESSION['username'] = isset($_SESSION['username']) ? ($_SESSION['username']) : NULL;
+    $_SESSION['loggedin'] = isset($_SESSION['loggedin']) ? ($_SESSION['loggedin']) : NULL;
    /*
    * Include the necessary files
    */
@@ -53,8 +55,12 @@
       $legend = "Edit This Post";
    } else {
      // Check if we're creating a new user
-     if($page == 'createuser'){
-       $create = createUserForm();
+     if($page == 'createadmin'){
+       $isAdmin = TRUE;
+       $create = createUserForm($isAdmin);
+     } else if($page == 'createuser') {
+       $isAdmin = FALSE;
+       $create = createUserForm($isAdmin);
      }
 
      // Set the legend of the form
@@ -86,12 +92,13 @@
             <ul id="menu">
                <li><a href="/post-hub-php/thread/">Home</a></li>
                <li><a href="/post-hub-php/about/about-the-author">About</a></li>
+               <li><a href="/post-hub-php/admin/login">Log In</a></li>
             </ul>
          </nav>
 
-         <?php if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==1): ?>
+         <?php if(isset($_SESSION['loggedin'])): ?>
             <p id="control_panel">
-            You are logged in!
+            <?php echo "Welcome " . $_SESSION['username']; ?>
             <a href="/post-hub-php/inc/update.inc.php?action=logout">Log
             out</a>.
             </p>

@@ -183,11 +183,30 @@ FORM;
 
 
 
-  function createUserForm() {
+  function createUserForm($isAdmin) {
+    if($isAdmin == TRUE){
+      return <<<FORM
+      <form action="/post-hub-php/inc/update.inc.php" method="post">
+        <fieldset>
+          <legend>Create a New Administrator</legend>
+          <label for="username">Username</label>
+          <input type="text" name="username" maxlength="75" />
+
+          <label for="password">Password</label>
+          <input type="text" name="password" maxlength="75" />
+
+          <input type="submit" name="submit" value="Create" />
+          <input type="submit" name="submit" value="Cancel" />
+          <input type="hidden" name="action" value="createadmin" />
+          <input type="hidden" name="isAdmin" value="yes" />
+        </fieldset>
+      </form>
+FORM;
+} else {
     return <<<FORM
     <form action="/post-hub-php/inc/update.inc.php" method="post">
       <fieldset>
-        <legend>Create a New Administrator</legend>
+        <legend>Create a New User</legend>
         <label for="username">Username</label>
         <input type="text" name="username" maxlength="75" />
 
@@ -197,9 +216,11 @@ FORM;
         <input type="submit" name="submit" value="Create" />
         <input type="submit" name="submit" value="Cancel" />
         <input type="hidden" name="action" value="createuser" />
+        <input type="hidden" name="isAdmin" value="no" />
       </fieldset>
     </form>
 FORM;
+}
   }
 
 ?>

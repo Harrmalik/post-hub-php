@@ -21,7 +21,7 @@
                   include_once 'inc/comments.inc.php';
                   $comments = new Comments();
                   $comment_disp = $comments->showComments($p['postID']);
-                  $comment_form = $comments->showCommentForm($p['postID']);
+                  $comment_form = ($_SESSION['username']) ? $comments->showCommentForm($p['postID'], $_SESSION['username']) : NULL;
                } else {
                   $comment_form = NULL;
                }
@@ -39,8 +39,14 @@
                <a href="..">Back to Latest Posts</a>
             </p>
             <h3> Comments for This Post </h3>
-         <?php echo $comment_disp, $comment_form; endif; ?>
+         <?php echo $comment_disp, $comment_form;
+            if($_SESSION['loggedin'] == NULL){
+              echo "<a href='/post-hub-php/admin/login'><button>Log in to comment</button></a>";
+            }
+         ?>
 
+
+         <?php endif; ?>
          <?php
             } else {
                //Loop through each post

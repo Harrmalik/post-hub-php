@@ -92,7 +92,24 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
       } else {
           exit('Something went wrong while saving the comment.');
       }
-   } else if($_GET['action'] == 'comment_delete') {
+   } else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['submit'] == 'Edit Comment') {
+     // Include and instantiate the Comments class
+     include_once 'comments.inc.php';
+     $comments = new Comments();
+
+     // Save the comment
+     if($comments->editComment($_POST)){
+         // If available, store the entry the user came FROM
+         $loc = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '../';
+
+         // Send the user back to the Post
+         header('Location: '.$loc);
+         exit;
+       }else {
+             exit('Something went wrong while saving the comment.');
+         }
+
+   }else if($_GET['action'] == 'comment_delete') {
       // If the delete link is clicked on a comment, confirm it here
 
       // Include and instantiate the Comments class
@@ -138,15 +155,32 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
                 FROM admin
                 WHERE username=?
                 AND password=SHA1(?)";
+
         $q = $db->prepare($sql);
         $q->execute(array($_POST['username'], $_POST['password']));
         $response = $q->fetch();
         $_SESSION['loggedin'] = ($response['num_users'] > 0) ? 1 : NULL;
 
+        if($_SESSION['loggedin'] == NULL) {
+          $sql = "SELECT COUNT(*) AS num_users
+                  FROM users
+                  WHERE username=?
+                  AND password=SHA1(?)";
+
+          $q = $db->prepare($sql);
+          $q->execute(array($_POST['username'], $_POST['password']));
+          $response = $q->fetch();
+          $_SESSION['loggedin'] = ($response['num_users'] > 0) ? 2 : NULL;
+        }
+
+        if($_SESSION['loggedin'] > 0) {
+          $_SESSION['username'] = $_POST['username'];
+        }
+
         header('Location: /post-hub-php');
         exit;
 
-   }else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'createuser'
+   }else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'createadmin'
     && !empty($_POST['username']) && !empty($_POST['password'])) {
           // Include database credentials and connect to the database
           include_once 'db.inc.php';
@@ -155,11 +189,28 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
                   VALUES(?, SHA1(?))";
           $q = $db->prepare($sql);
           $q->execute(array($_POST['username'], $_POST['password']));
+          $_SESSION['loggedin'] =  1;
+          $_SESSION['username'] = $_POST['username'];
+
+          header('Location: /post-hub-php/');
+          exit;
+   } else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'createuser'
+    && !empty($_POST['username']) && !empty($_POST['password'])) {
+          // Include database credentials and connect to the database
+          include_once 'db.inc.php';
+          $db = new PDO(DB_INFO, DB_USER, DB_PASS);
+          $sql = "INSERT INTO users (username, password)
+                  VALUES(?, SHA1(?))";
+          $q = $db->prepare($sql);
+          $q->execute(array($_POST['username'], $_POST['password']));
+          $_SESSION['loggedin'] =  2;
+          $_SESSION['username'] = $_POST['username'];
 
           header('Location: /post-hub-php/');
           exit;
    } else if($_GET['action'] == 'logout') {
       session_destroy();
+      $_SESSION['username'] = NULL;
       header('Location: ../');
       exit;
    }else {

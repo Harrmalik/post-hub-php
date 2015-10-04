@@ -6,8 +6,6 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==1):
       <h1> Post Hub </h1>
       <?php if($page == 'delete'): {
                 echo $confirm;
-              } elseif($page == 'createuser'): {
-                echo $create;
               }
             else:
       ?>
@@ -32,7 +30,9 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==1):
       </form>
       <?php endif; ?>
 
-    <?php else: ?>
+    <?php elseif($page == 'createuser' || $page == 'createadmin'): {
+          echo $create;} else: ?>
+
         <form action="/post-hub-php/inc/update.inc.php" method="post">
           <fieldset>
               <legend>Please Log in to continue</legend>
@@ -43,7 +43,9 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==1):
               <input type="text" name="password" maxlength="75" />
 
               <input type="submit" name="submit" value="Log In" />
+              <a href="/post-hub-php/admin/createuser">Sign Up</a>
               <input type="hidden" name="action" value="login" />
+
           </fieldset>
         </form>
     <?php endif; // Ends the section available to logged in users ?>

@@ -37,3 +37,8 @@ CREATE TABLE admin (
 username VARCHAR(75) PRIMARY KEY,
 password VARCHAR(40)
 )
+
+CREATE TABLE users (
+username VARCHAR(75) PRIMARY KEY,
+password VARCHAR(40)
+)

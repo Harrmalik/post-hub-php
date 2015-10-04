@@ -1,9 +1,9 @@
 # Post Hub (PHP Edition)
-Version 0.0.7
+Version 1.0.0
 
 Scope Description
 --------------
-My version of reddit / forum site using PHP
+A simple website to post blog messages.
 For more info on me please see the file called Scope Document.
 
 Technologies

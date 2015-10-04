@@ -35,13 +35,13 @@ class Comments {
 
 
     // Display a form for users to enter new comments with
-    public function showCommentForm($post_id) {
+    public function showCommentForm($post_id, $name =NULL) {
         return <<<FROM
         <form action="/post-hub-php/inc/update.inc.php" method="post" id="comment-form">
           <fieldset>
             <legend>Post a Comment</legend>
             <label for="name">Name</label>
-            <input type="text" name="name" maxlength="75" />
+            <input type="text" name="name" maxlength="75" value="$name"/>
 
             <label for="email">Email</label>
             <input type="text" name="email" maxlength="150" />
@@ -90,6 +90,19 @@ FROM;
             // If something went wrong, return false
             return FALSE;
         }
+    }
+
+    public function editComment($cf) {
+      $comment = htmlentities(strip_tags($cf['comment']), ENT_QUOTES);
+      // Keep formatting of comments and remove extra whitespace
+      $comment = nl2br(trim($comment));
+      $sql ="UPDATE Comments
+             SET comment =?
+             WHERE id= ?
+             LIMIT 1";
+
+      $q = $db->prepare($sql);
+      $q->execute(array($comment, $cf['id']));
     }
 
 
@@ -162,11 +175,15 @@ FROM;
                 // Generate a byline for the comment
                 $byline = "<span><strong>$c[name]</strong>[Posted on $date]</span>";
 
-                if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
+                if(isset($_SESSION['loggedin']) && $_SESSION['username'] == $c['name'] || $_SESSION['loggedin'] == 1) {
                   // Generate delete link for the comment display
-                  $admin = "<a href=\"/post-hub-php/inc/update.inc.php"
+                  $admin = ["<a href=\"/post-hub-php/inc/update.inc.php"
                            . "?action=comment_delete&id=$c[id]\""
-                           . "class=\"admin\">delete</a>";
+                           . "class=\"admin\">delete</a>",
+
+                           "<a href=\"/post-hub-php/inc/update.inc.php"
+                                    . "?action=comment_edit&id=$c[id]\""
+                                    . "class=\"admin\">edit</a>"];
                 } else {
                   $admin = NULL;
                 }
@@ -178,7 +195,7 @@ FROM;
             }
 
             // Assemble the pieces into a formatted comment
-            $display .= "<p class=\"comment\">$byline$c[comment]$admin</p>";
+            $display .= "<p class=\"comment\">$byline$c[comment]$admin[0]</p>";
         }
 
         // Return all the formatted comments as a string
