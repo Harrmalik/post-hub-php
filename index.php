@@ -1,8 +1,8 @@
 
 <?php include_once 'views/header.php'; ?>
 
-      <h1 class="col-md-8 col-md-offset-2 page-header"> Post Hub </h1>
 
+<!-- <h1 class="col-md-8 col-md-offset-2 page-header"> Posts </h1> -->
       <div id="posts" class="col-md-8 col-md-offset-2">
          <?php
             //If the full display flag is set, show the post
@@ -29,7 +29,7 @@
          ?>
 
          <article>
-         <h2 class="page-header"><small><?php echo $p['title']; ?> </small></h2>
+         <h1 class="page-header"><small><?php echo $p['title']; ?> </small></h1>
          <?php echo $img ?>
          <p><?php echo $p['content'] ?></p>
          <p>

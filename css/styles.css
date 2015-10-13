@@ -3,6 +3,7 @@ body {
 }
 
 h1.page-header.col-md-8 {
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -12,6 +13,13 @@ h2.page-header:first-of-type {
 
 h2 small {
   color: #3CAEF5;
+}
+
+ul li {
+  float:left;
+}
+section {
+  clear: both;
 }
 
 .backlink {

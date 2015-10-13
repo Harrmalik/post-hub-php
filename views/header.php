@@ -83,9 +83,7 @@
       <link rel="alternate" type="application/rss+xml" title="Post Hub PHP- RSS 2.0" href="/post-hub-php/feeds/rss.php" />
       <!-- Latest compiled and minified CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-      <link rel="stylesheet" href="../css/styles.css">
-      <!-- Latest compiled and minified JavaScript -->
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="/post-hub-php/css/styles.css">
    </head>
 
    <body>
@@ -93,8 +91,7 @@
         <nav class="navbar navbar-inverse">
 
           <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="/post-hub-php/thread/">Post Hub</a>
             <ul class="nav navbar-nav">
                <li role="presentation"><a href="/post-hub-php/thread/">Home</a></li>
                <li role="presentation"><a href="/post-hub-php/about/about-the-author">About</a></li>
@@ -102,7 +99,6 @@
                  <li role="presentation"><a href="/post-hub-php/admin/login">Log In</a></li>
                <?php endif; ?>
             </ul>
-          </div><!-- /.navbar-collapse -->
       </nav>
          <nav class="col-md-8 col-md-offset-2">
             <ul id="menu" class="nav nav-pills">
