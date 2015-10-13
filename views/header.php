@@ -81,26 +81,30 @@
       <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
       <title> Post Hub </title>
       <link rel="alternate" type="application/rss+xml" title="Post Hub PHP- RSS 2.0" href="/post-hub-php/feeds/rss.php" />
-      <link href="/post-hub-php/css/normalize.css" rel="stylesheet" type="text/css"/>
-      <link href="/post-hub-php/css/foundation.min.css" rel="stylesheet" type="text/css"/>
-      <link href="/post-hub-php/css/styles.css" rel="stylesheet" type="text/css"/>
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <link rel="stylesheet" href="../css/styles.css">
    </head>
 
    <body>
-      <header>
-         <nav>
-            <ul id="menu">
-               <li><a href="/post-hub-php/thread/">Home</a></li>
-               <li><a href="/post-hub-php/about/about-the-author">About</a></li>
-               <li><a href="/post-hub-php/admin/login">Log In</a></li>
+      <header class="row">
+         <nav class="col-md-8 col-md-offset-2">
+            <ul id="menu" class="nav nav-pills">
+               <li role="presentation"><a href="/post-hub-php/thread/">Home</a></li>
+               <li role="presentation"><a href="/post-hub-php/about/about-the-author">About</a></li>
+               <?php if(!isset($_SESSION['loggedin'])): ?>
+                 <li role="presentation"><a href="/post-hub-php/admin/login">Log In</a></li>
+               <?php endif; ?>
             </ul>
          </nav>
 
-         <?php if(isset($_SESSION['loggedin'])): ?>
-            <p id="control_panel">
-            <?php echo "Welcome " . $_SESSION['username']; ?>
-            <a href="/post-hub-php/inc/update.inc.php?action=logout">Log
-            out</a>.
-            </p>
-          <?php endif; ?>
+         <div class="col-md-8 col-md-offset-2">
+           <?php if(isset($_SESSION['loggedin'])): ?>
+              <p class="alert alert-info" role="alert">
+              <?php echo "Welcome " . $_SESSION['username']; ?>
+              <a href="/post-hub-php/inc/update.inc.php?action=logout" class="alert-link">Log
+              out</a>.
+              </p>
+            <?php endif; ?>
+         </div>
       </header>

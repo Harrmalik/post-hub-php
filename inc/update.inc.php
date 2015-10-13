@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
       // Create a URL to save in the database
       $url = makeUrl($_POST['title']);
 
-      if(isset($_FILES['image']['tmp_name'])) {
+      if(isset($_POST['image'])) {
         try {
             // Instantiate the class and set a save path
             $img = new ImageHandler("/post-hub-php/imgs");
@@ -64,7 +64,7 @@ if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['submit'] == 'Save Entry'
         );
         $q->closeCursor();
 
-        // Get the ID of teh entry we just saved
+        // Get the ID of the entry we just saved
         $id_obj = $db->query("SELECT LAST_INSERT_ID()");
         $id = $id_obj->fetch();
         $id_obj->closeCursor();

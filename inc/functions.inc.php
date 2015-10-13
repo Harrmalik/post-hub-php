@@ -110,8 +110,8 @@ function adminLinks($page, $url) {
     $deleteURL = "/post-hub-php/admin/delete/$url";
 
     // Make a hyperlink and add it to an array
-    $admin['edit'] = "<a href=\"$editURL\">edit</a>";
-    $admin['delete'] = "<a href=\"$deleteURL\">delete</a>";
+    $admin['edit'] = "<a href=\"$editURL\" class='btn btn-info'>edit</a>";
+    $admin['delete'] = "<a href=\"$deleteURL\" class='btn btn-danger'>delete</a>";
 
     return $admin;
 }
@@ -132,8 +132,8 @@ function confirmDelete($db, $url) {
     <fieldset>
       <legend>Are You Sure?</legend>
       <p>Are you sure you want to delete the post "$p[title]"?</p>
-      <input type="submit" name="submit" value="Yes" />
-      <input type="submit" name="submit" value="No" />
+      <input type="submit" name="submit" value="Yes" class="btn btn-default" />
+      <input type="submit" name="submit" value="No" class="btn btn-default" />
       <input type="hidden" name="action" value="delete" />
       <input type="hidden" name="url" value="$url" />
     </fieldset>
@@ -195,8 +195,8 @@ FORM;
           <label for="password">Password</label>
           <input type="text" name="password" maxlength="75" />
 
-          <input type="submit" name="submit" value="Create" />
-          <input type="submit" name="submit" value="Cancel" />
+          <input type="submit" name="submit" value="Create" class="btn btn-default" />
+          <input type="submit" name="submit" value="Cancel" class="btn btn-default" />
           <input type="hidden" name="action" value="createadmin" />
           <input type="hidden" name="isAdmin" value="yes" />
         </fieldset>
@@ -208,13 +208,14 @@ FORM;
       <fieldset>
         <legend>Create a New User</legend>
         <label for="username">Username</label>
-        <input type="text" name="username" maxlength="75" />
+        <input class="form-control" type="text" name="username" maxlength="75" />
 
         <label for="password">Password</label>
-        <input type="text" name="password" maxlength="75" />
+        <input class="form-control" type="text" name="password" maxlength="75" />
+        <br>
 
-        <input type="submit" name="submit" value="Create" />
-        <input type="submit" name="submit" value="Cancel" />
+        <input type="submit" name="submit" value="Create" class="btn btn-default" />
+        <input type="submit" name="submit" value="Cancel" class="btn btn-default" />
         <input type="hidden" name="action" value="createuser" />
         <input type="hidden" name="isAdmin" value="no" />
       </fieldset>

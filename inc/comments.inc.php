@@ -37,21 +37,27 @@ class Comments {
     // Display a form for users to enter new comments with
     public function showCommentForm($post_id, $name =NULL) {
         return <<<FROM
-        <form action="/post-hub-php/inc/update.inc.php" method="post" id="comment-form">
+        <form action="/post-hub-php/inc/update.inc.php" method="post" id="comment-form" class="form-horizontal">
           <fieldset>
             <legend>Post a Comment</legend>
+            <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" name="name" maxlength="75" value="$name"/>
+            <input class="form-control" type="text" name="name" maxlength="75" value="$name"/>
+            </div>
 
+            <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" maxlength="150" />
+            <input class="form-control" type="text" name="email" maxlength="150" />
+            </div>
 
+            <div class="form-group">
             <label for="comment">Comment</label>
-            <textarea name="comment" rows="10" cols="45"></textarea>
+            <textarea class="form-control" name="comment" rows="10" cols="45"></textarea>
+            </div>
 
             <input type="hidden" name="post_id" value="$post_id" />
-            <input type="submit" name="submit" value="Post Comment" />
-            <input type="submit" name="submit" value="Cancel" />
+            <input type="submit" name="submit" value="Post Comment" class="btn btn-default" />
+            <input type="submit" name="submit" value="Cancel" class="btn btn-default" />
           </fieldset>
         </form>
 FROM;
@@ -173,13 +179,13 @@ FROM;
                 $date = date($format, strtotime($c['date']));
 
                 // Generate a byline for the comment
-                $byline = "<span><strong>$c[name]</strong>[Posted on $date]</span>";
+                $byline = "<span><strong>$c[name]</strong><small>[Posted on $date]</small></span><br>";
 
                 if(isset($_SESSION['loggedin']) && $_SESSION['username'] == $c['name'] || $_SESSION['loggedin'] == 1) {
                   // Generate delete link for the comment display
-                  $admin = ["<a href=\"/post-hub-php/inc/update.inc.php"
+                  $admin = ["<br><a href=\"/post-hub-php/inc/update.inc.php"
                            . "?action=comment_delete&id=$c[id]\""
-                           . "class=\"admin\">delete</a>",
+                           . "class=\" btn-xs admin btn btn-danger\">delete</a>",
 
                            "<a href=\"/post-hub-php/inc/update.inc.php"
                                     . "?action=comment_edit&id=$c[id]\""
@@ -230,8 +236,8 @@ FROM;
             <input type="hidden" name="id" value="$id" />
             <input type="hidden" name="action" value="comment_delete" />
             <input type="hidden" name="url" value="$url" />
-            <input type="submit" name="confirm" value="Yes" />
-            <input type="submit" name="confirm" value="No" />
+            <input type="submit" name="confirm" value="Yes" class="btn btn-danger" />
+            <input type="submit" name="confirm" value="No" class="btn btn-default" />
           </fieldset>
         </form>
         </body>

@@ -26,7 +26,7 @@ class ImageHandler {
   * @param bool $rename whether or not the image should be renamed
   * @return string the path to the resized uploaded file
   */
-  public function processUploadedImage($file, $rename=TRUE)
+  public function processUploadedImage($file = NULL, $rename=TRUE)
   {
       // Seperate the uploaded file array
       list($name, $type, $tmp, $err, $size) = array_values($file);

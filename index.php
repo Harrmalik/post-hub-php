@@ -1,8 +1,8 @@
 <?php include_once 'views/header.php'; ?>
 
-      <h1> Post Hub </h1>
+      <h1 class="col-md-8 col-md-offset-2 page-header"> Post Hub </h1>
 
-      <div id="posts">
+      <div id="posts" class="col-md-8 col-md-offset-2">
          <?php
             //If the full display flag is set, show the post
             if($fulldisp == 1){
@@ -27,21 +27,25 @@
                }
          ?>
 
-         <h2><?php echo $p['title']; ?> </h2>
-         <p><?php echo $img, $p['content'] ?> </p>
+         <article>
+         <h2 class="page-header"><small><?php echo $p['title']; ?> </small></h2>
+         <?php echo $img ?>
+         <p><?php echo $p['content'] ?></p>
          <p>
             <?php echo $admin['edit'] ?>
             <?php if($page=='thread') echo $admin['delete'] ?>
          </p>
 
+         </article>
+
          <?php if($page=='thread'): ?>
             <p class="backlink">
-               <a href="..">Back to Latest Posts</a>
+               <a href=".." class="btn btn-link">Back to Latest Posts</a>
             </p>
             <h3> Comments for This Post </h3>
          <?php echo $comment_disp, $comment_form;
             if($_SESSION['loggedin'] == NULL){
-              echo "<a href='/post-hub-php/admin/login'><button>Log in to comment</button></a>";
+              echo "<a href='/post-hub-php/admin/login' class='btn btn-default'>Log in to comment</a>";
             }
          ?>
 
@@ -57,22 +61,25 @@
                   else{
          ?>
          <!-- <a href="/post-hub-php/<?php echo $post['page'] ?>/<?php echo $post['url'] ?>"> -->
-         <h3>
-            <?php echo $post['title'] ?></h3>
-          <p><?php echo substr($post['content'],0,80).'<br />...
+         <article>
+         <h3 class="page-header">
+            <small><?php echo $post['title'] ?></small></h3>
+          <p><?php echo substr($post['content'],0,80).'<br>...
             <a href="/post-hub-php/'.$post['page'].'/'.$post['url'].'">Read More</a>'; ?></p>
+          </article>
             <?php } ?>
+            <hr>
          <?php
             } // End the foreach loop
          } // End the else
          ?>
          <p class="backlink">
             <?php if($page=='thread' && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1): ?>
-            <a href="/post-hub-php/admin/<?php echo $page ?>">Write a new Post!</a>
+            <a href="/post-hub-php/admin/<?php echo $page ?>" class="btn btn-primary">Write a new Post!</a>
             <?php endif; ?>
          </p>
          <p>
-           <a href="/post-hub-php/feeds/rss.php">Subscribe via RSS!</a>
+           <a href="/post-hub-php/feeds/rss.php" class="btn btn-link">Subscribe via RSS!</a>
          </p>
       </div>
 
