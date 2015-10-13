@@ -35,7 +35,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==1):
         <input type="hidden" name="postID" value="<?php echo $p['postID'] ?>" />
         <input type="hidden" name="page" value="<?php echo $page ?>" />
         <input type="submit" name="submit" value="Save Entry" class="btn btn-primary" />
-        <input type="submit" name="submit" value="Cancel" class="btn btn-default" />
+        <a href="/post-hub-php/" class="btn btn-default"> Cancel<a/>
       </fieldset>
       </form>
       <?php endif; ?>

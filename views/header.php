@@ -84,17 +84,28 @@
       <!-- Latest compiled and minified CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
       <link rel="stylesheet" href="../css/styles.css">
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
    </head>
 
    <body>
-      <header class="row">
-         <nav class="col-md-8 col-md-offset-2">
-            <ul id="menu" class="nav nav-pills">
+      <header class="row col-md-8 col-md-offset-2">
+        <nav class="navbar navbar-inverse">
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <a class="navbar-brand" href="#">Brand</a>
+            <ul class="nav navbar-nav">
                <li role="presentation"><a href="/post-hub-php/thread/">Home</a></li>
                <li role="presentation"><a href="/post-hub-php/about/about-the-author">About</a></li>
                <?php if(!isset($_SESSION['loggedin'])): ?>
                  <li role="presentation"><a href="/post-hub-php/admin/login">Log In</a></li>
                <?php endif; ?>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+      </nav>
+         <nav class="col-md-8 col-md-offset-2">
+            <ul id="menu" class="nav nav-pills">
             </ul>
          </nav>
 
@@ -108,3 +119,5 @@
             <?php endif; ?>
          </div>
       </header>
+
+      <section>

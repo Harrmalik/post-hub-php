@@ -1,3 +1,4 @@
+
 <?php include_once 'views/header.php'; ?>
 
       <h1 class="col-md-8 col-md-offset-2 page-header"> Post Hub </h1>
@@ -61,9 +62,10 @@
                   else{
          ?>
          <!-- <a href="/post-hub-php/<?php echo $post['page'] ?>/<?php echo $post['url'] ?>"> -->
-         <article>
-         <h3 class="page-header">
+
+         <h2 class="page-header">
             <small><?php echo $post['title'] ?></small></h3>
+            <article>
           <p><?php echo substr($post['content'],0,80).'<br>...
             <a href="/post-hub-php/'.$post['page'].'/'.$post['url'].'">Read More</a>'; ?></p>
           </article>
@@ -82,5 +84,4 @@
            <a href="/post-hub-php/feeds/rss.php" class="btn btn-link">Subscribe via RSS!</a>
          </p>
       </div>
-
 <?php include_once 'views/footer.php'; ?>
